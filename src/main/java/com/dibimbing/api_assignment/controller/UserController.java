@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dibimbing.api_assignment.dtos.UserReqLogin;
 import com.dibimbing.api_assignment.dtos.UserReqRegister;
 import com.dibimbing.api_assignment.services.UserService;
 
@@ -22,7 +23,12 @@ public class UserController {
         userService.registerUser(request);
         
         
-        return ResponseEntity.ok("Register Sucessfully");
+        return ResponseEntity.ok("Register Successfully");
 
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUserController(@RequestBody UserReqLogin request) {
+       return userService.loginUser(request);
     }
 }
