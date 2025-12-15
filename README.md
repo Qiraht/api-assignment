@@ -13,10 +13,10 @@ This repository is using [git-flow](https://github.com/gittower/git-flow-next/) 
         - username: String
         - password: String
         - email: String
-        - address: String
+        - address (optional): String
 - **POST /api/users/login**
     - Request Body: 
-        - email: String
+        - username: String
         - password: String
 - **GET /api/users/{id}**
     - Request Path: 
