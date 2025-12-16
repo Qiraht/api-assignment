@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 
 import com.dibimbing.api_assignment.dtos.UserReqRegister;
 import com.dibimbing.api_assignment.dtos.UserResponse;
-import com.dibimbing.api_assignment.dtos.UserReqLogin;
 import com.dibimbing.api_assignment.entity.User;
 import com.dibimbing.api_assignment.repository.UserRepository;
 
@@ -28,31 +27,37 @@ public class UserService {
 
         // email empty & format validation
         if (!StringUtils.hasText(request.getEmail())) {
+            System.err.println("error: email tidak diisi");
             return ResponseEntity.status(400).body("Silahkan isi Email");
         }
 
         // password empty validation
         if (!StringUtils.hasText(request.getPassword())) {
+            System.err.println("error: password tidak diisi");
             return ResponseEntity.status(400).body("Silahkan isi Password");
         }
 
         // username empty validation
         if (!StringUtils.hasText(request.getUsername())) {
+            System.err.println("error: username tidak diisi");
             return ResponseEntity.status(400).body("Silahkan isi username");
         }
 
         // address empty validation
         if (!StringUtils.hasText(request.getAddress())) {
+            System.err.println("error: alamat tidak diisi");
             return ResponseEntity.status(400).body("Silahkan isi alamat");
         }
 
         // email duplicate validation
         if (userRepo.findByEmail(request.getEmail()).isPresent()) {
+            System.err.println("error: email sudah terpakai");
             return ResponseEntity.status(400).body("Email sudah terpakai");
         }
 
         // username duplicate validation
         if (userRepo.findByUsername(request.getUsername()).isPresent()) {
+            System.err.println("error: username sudah terpakai");
             return ResponseEntity.status(400).body("Username sudah terpakai");
         }
 
@@ -60,34 +65,40 @@ public class UserService {
 
         userRepo.save(user);
 
-        return ResponseEntity.ok("Register berhasil");
+        System.err.println("Register berhasil");
+        return ResponseEntity.status(201).body("Register berhasil");
     }
 
-    public ResponseEntity<String> loginUser(UserReqLogin request) {
-        Optional<User> userOpt = userRepo.findByUsername(request.getUsername());
+    public ResponseEntity<String> loginUser(String username, String password) {
+        Optional<User> userOpt = userRepo.findByUsername(username);
 
         // username validation
-        if (!StringUtils.hasText(request.getUsername())) {
+        if (!StringUtils.hasText(username)) {
+            System.err.println("error: username tidak diisi");
             return ResponseEntity.status(400).body("Silahkan isi username");
         }
 
         // password empty validation
-        if (!StringUtils.hasText(request.getPassword())) {
+        if (!StringUtils.hasText(password)) {
+            System.err.println("error: password tidak diisi");
             return ResponseEntity.status(400).body("Silahkan isi Password");
         }
 
         if (userOpt.isEmpty()) {
+            System.err.println("error: username tidak ditemukan");
             return ResponseEntity.status(404).body("Username tidak ditemukan");
-         }
+        }
 
         User user = userOpt.get();
 
         // password credential validation
-        if (!user.getPassword().equals(request.getPassword())) {
+        if (!user.getPassword().equals(password)) {
+            System.err.println("error: kredensial login salah");
             return ResponseEntity.status(401).body("Kredensial salah, silahkan masukkan ulang");
         }
 
-        return ResponseEntity.ok("Register successful");
+        System.out.println("Login berhasil");
+        return ResponseEntity.ok("Login berhasil");
         
     }
 
@@ -103,6 +114,7 @@ public class UserService {
             return ResponseEntity.ok(userResponse);
         }
 
+        System.err.println("error: id tidak ditemukan");
         return ResponseEntity.status(404).build();
     }
     
