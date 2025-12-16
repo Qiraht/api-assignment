@@ -8,16 +8,18 @@ This repository is using [git-flow](https://github.com/gittower/git-flow-next/) 
 2. Run ```mvn spring-boot:run```
 
 ## API Endpoint
-- **POST /api/users/register**
-    - Request Body: 
+- **GET /api/users/register**
+    - Request Param: 
         - username: String
         - password: String
         - email: String
         - address (optional): String
-- **POST /api/users/login**
-    - Request Body: 
+- **GET /api/users/login**
+    - Request Param: 
         - username: String
         - password: String
 - **GET /api/users/{id}**
     - Request Path: 
         - id: Integer
+
+Notes: Kalau mau versi yang sebelumnya (POST register dengan req body, dll) bisa cek branch develop
